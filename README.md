@@ -1,2 +1,3 @@
 # cu-kfs-customizations-reports
-bash scripts to generate reports showing customizations we have made to our KFS overlay
+Bash scripts to generate reports showing customizations we have made to our KFS overlay.
+To run this job, use bash.
