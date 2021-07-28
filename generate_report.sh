@@ -27,17 +27,23 @@ cd cu-kfs
 echo "Technical Report generated on $currentDate " > $reportFile
 
 
-kualicoJavaBase="../financials"
+kualicoJavaBase="../financials/"
 kualiCoOverlayJavaBase="src/main/java/org/kuali/kfs"
 cornellJavaBase="src/main/java/edu/cornell/kfs"
 cornellXMLBase="src/main/resources/edu/cornell/kfs"
 
 case $module in
-  ar)
-    kualicoJavaBase="${kualicoJavaBase}/kfs-ar"
-    kualiCoOverlayJavaBase="${kualiCoOverlayJavaBase}/module/ar"
-    cornellJavaBase="${cornellJavaBase}/module/ar"
-    cornellXMLBase="${cornellXMLBase}/module/ar"
+  ar | cam | cg | ld | purap)
+    kualicoJavaBase="${kualicoJavaBase}/kfs-${module}/"
+    kualiCoOverlayJavaBase="${kualiCoOverlayJavaBase}/module/${module}"
+    cornellJavaBase="${cornellJavaBase}/module/${module}"
+    cornellXMLBase="${cornellXMLBase}/module/${module}"
+    ;;
+  *)
+    kualicoJavaBase="${kualicoJavaBase}/kfs-core/"
+    kualiCoOverlayJavaBase="${kualiCoOverlayJavaBase}/${module}"
+    cornellJavaBase="${cornellJavaBase}/${module}"
+    cornellXMLBase="${cornellXMLBase}/${module}"
     ;;
 esac
 
@@ -65,7 +71,6 @@ do
   
   moduleFileCount=$(find $modPath -type f -print | wc -l)
   echo "The number of files in $modDescription : $moduleFileCount" >> $reportFile
-  echo "showCommitHistory: $showCommitHistory" >> $reportFile
 
   moduleFiles=($(find $modPath -type f -follow -print))
   for cuFile in "${moduleFiles[@]}"
@@ -102,5 +107,5 @@ done
 
 cd ..
 
-#rm -rf cu-kfs
-#rm -rf financials
+rm -rf cu-kfs
+rm -rf financials
