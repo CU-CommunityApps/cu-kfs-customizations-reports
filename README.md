@@ -1,7 +1,8 @@
 # cu-kfs-customizations-reports
-Bash script to generate reports showing customizations we have made to our KFS overlay.
-To run this job, use bash.
-At the top of the script there are a list arrays that control the directories reviewed, and the reviews performed.
-The array variable naming convention is source_type_module.  Source is K for KualiCo and C for Cornell. Type is J for Java, and X for XML.  Module is for the KFS module, SYS, PDP, AR, etc
-The array content are description, Cornell overlay path, kualico path, boolean if the commit history is shown, and boolean if we diff the Cornell file versus the kualico file.
-Currently the diff will only work for over lay files if the directory is a Cornell overlay file on the ORG path.
+This project contains a bash script that analyzes CU-KFS code, shows recent commit history per file, and when it is an overylay of a basecode file, it shows the differences between the CU-KFS code on the KualiCo code.
+
+# How to run this script
+bash generate_report.sh fp true true
+* The first variable is the module.  Available modes are sys, coa, fp, gl, kim, kns, pdp, sec, vnd, ar, cam, cg, ld, and purap.
+* The second variable is a boolean for if the report should include the commit history
+* The third variable is for if you want a diff between a cu-kfs overlay java code, and kualico base code.
