@@ -49,12 +49,12 @@ esac
 
 KUALICO_JAVA=("KualiCo base overlay $module" "$kualiCoOverlayJavaBase" "$kualicoJavaBase" "$commit_history" "$kualico_diff")
 CORNELL_JAVA=("Cornell Java $module" "$cornellJavaBase" "" "$commit_history" "false")
-CORNELL_XML=("Cornell XML $module" "$cornellXMLBase" "" "$commit_history" "false")
+CORNELL_RESOURCES=("Cornell Resources $module" "$cornellXMLBase" "" "$commit_history" "false")
 
 modules=(
   KUALICO_JAVA[@]
   CORNELL_JAVA[@]
-  CORNELL_XML[@]
+  CORNELL_RESOURCES[@]
 )
 
 
@@ -88,7 +88,12 @@ do
     if [ "$showKualiCoDiff" = "true" ]; then
       kualiCOFile="$modKualiCoPath$cuFile"
       echo "KualiCO File: $kualiCOFile" >> $reportFile
-      diff "$cuFile" "$kualiCOFile" >> $reportFile
+      if test -f "$kualiCOFile"; then
+          diff "$cuFile" "$kualiCOFile" >> $reportFile
+      else
+        echo "  KualiCO File does not exist" >> $reportFile
+      fi
+      
       
       echo "" >> $reportFile
       echo "" >> $reportFile
