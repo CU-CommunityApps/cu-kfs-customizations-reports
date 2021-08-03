@@ -10,7 +10,7 @@ kualico_diff="$3"
 
 echo "Processing module $module with commit history $commit_history and KualiCo diff $kualico_diff"
 
-reportFile="../reports/report_file_${module}"
+reportFile="../reports/technical/report_file_${module}"
 if [ "$commit_history" = "true" ]; then
   reportFile="${reportFile}_commit_history"
 fi
@@ -27,32 +27,37 @@ cd cu-kfs
 echo "Technical Report generated on $currentDate " > $reportFile
 
 
-kualicoJavaBase="../financials/"
+kualicoBase="../financials/"
 kualiCoOverlayJavaBase="src/main/java/org/kuali/kfs"
+kualiCoOverlayResourcesBase="src/main/resources/org/kuali/kfs"
 cornellJavaBase="src/main/java/edu/cornell/kfs"
-cornellXMLBase="src/main/resources/edu/cornell/kfs"
+cornellResourceBase="src/main/resources/edu/cornell/kfs"
 
 case $module in
   ar | cam | cg | ld | purap)
-    kualicoJavaBase="${kualicoJavaBase}/kfs-${module}/"
+    kualicoBase="${kualicoBase}/kfs-${module}/"
     kualiCoOverlayJavaBase="${kualiCoOverlayJavaBase}/module/${module}"
+    kualiCoOverlayResourcesBase="${kualiCoOverlayResourcesBase}/module/${module}"
     cornellJavaBase="${cornellJavaBase}/module/${module}"
-    cornellXMLBase="${cornellXMLBase}/module/${module}"
+    cornellResourceBase="${cornellResourceBase}/module/${module}"
     ;;
   *)
-    kualicoJavaBase="${kualicoJavaBase}/kfs-core/"
+    kualicoBase="${kualicoBase}/kfs-core/"
     kualiCoOverlayJavaBase="${kualiCoOverlayJavaBase}/${module}"
+    kualiCoOverlayResourcesBase="${kualiCoOverlayResourcesBase}/${module}"
     cornellJavaBase="${cornellJavaBase}/${module}"
-    cornellXMLBase="${cornellXMLBase}/${module}"
+    cornellResourceBase="${cornellResourceBase}/${module}"
     ;;
 esac
 
-KUALICO_JAVA=("KualiCo base overlay $module" "$kualiCoOverlayJavaBase" "$kualicoJavaBase" "$commit_history" "$kualico_diff")
+KUALICO_JAVA=("KualiCo base Java overlay $module" "$kualiCoOverlayJavaBase" "$kualicoBase" "$commit_history" "$kualico_diff")
+KUALICO_RESOURCES=("KualiCo base resources overlay $module" "$kualiCoOverlayResourcesBase" "$kualicoBase" "$commit_history" "$kualico_diff")
 CORNELL_JAVA=("Cornell Java $module" "$cornellJavaBase" "" "$commit_history" "false")
-CORNELL_RESOURCES=("Cornell Resources $module" "$cornellXMLBase" "" "$commit_history" "false")
+CORNELL_RESOURCES=("Cornell Resources $module" "$cornellResourceBase" "" "$commit_history" "false")
 
 modules=(
   KUALICO_JAVA[@]
+  KUALICO_RESOURCES[@]
   CORNELL_JAVA[@]
   CORNELL_RESOURCES[@]
 )
@@ -71,6 +76,8 @@ do
   
   moduleFileCount=$(find $modPath -type f -print | wc -l)
   echo "The number of files in $modDescription : $moduleFileCount" >> $reportFile
+  echo "" >> $reportFile
+  echo "" >> $reportFile
 
   moduleFiles=($(find $modPath -type f -follow -print))
   for cuFile in "${moduleFiles[@]}"
@@ -100,7 +107,7 @@ do
       
     fi
     
-    
+    echo "" >> $reportFile
   done
 
   echo "******************************************************************************************************" >> $reportFile
@@ -112,5 +119,5 @@ done
 
 cd ..
 
-rm -rf cu-kfs
-rm -rf financials
+#rm -rf cu-kfs
+#rm -rf financials
