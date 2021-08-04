@@ -3,6 +3,6 @@ This project contains a bash script that analyzes CU-KFS code, shows recent comm
 
 # How to run this script
 bash generate_report.sh fp true true
-* The first variable is the module.  Available modes are sys, coa, fp, gl, kim, kns, pdp, sec, vnd, ar, cam, cg, ld, and purap.
+* The first variable is the module.  Available modes are  ar, cam, cg coa, concur, fp, gl, integration, kim, kns, krad, ld, pdp, pmw, purap, rass, receiptProcessing, sec, sys, tax, vnd, web
 * The second variable is a boolean for if the report should include the commit history
 * The third variable is for if you want a diff between a cu-kfs overlay java code, and kualico base code.

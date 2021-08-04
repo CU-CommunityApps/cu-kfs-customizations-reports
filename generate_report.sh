@@ -85,7 +85,8 @@ do
     echo "Cornell File $cuFile" >> $reportFile
     
     if [ "$showCommitHistory" = "true" ]; then
-      readarray -t gitLogEntries < <(git log --since=6.months --oneline -- $cuFile ":(exclude)phabricator")
+      echo "processing file $cuFile"
+      readarray -t gitLogEntries < <(git log --oneline -- $cuFile ":(exclude)phabricator")
       for logEntry in "${gitLogEntries[@]}"
       do
         echo "     $logEntry" >> $reportFile
