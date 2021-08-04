@@ -22,6 +22,15 @@ echo "Creating report file $reportFile"
 
 git clone https://github.com/CU-CommunityApps/cu-kfs
 git clone https://github.com/kualico/financials
+
+echo "If you would like to checkout a specific branch of cu-kfs or kualico financials, do so now.  When you are done press any key"
+while [ true ] ; do
+  read -t 3 -n 1
+  if [ $? = 0 ] ; then
+    break
+  fi
+done
+
 cd cu-kfs
 
 echo "Technical Report generated on $currentDate " > $reportFile
@@ -34,7 +43,7 @@ cornellJavaBase="src/main/java/edu/cornell/kfs"
 cornellResourceBase="src/main/resources/edu/cornell/kfs"
 
 case $module in
-  ar | cam | cg | ld | purap)
+  ar | cam | cg | ld | purap | receiptProcessing)
     kualicoBase="${kualicoBase}/kfs-${module}/"
     kualiCoOverlayJavaBase="${kualiCoOverlayJavaBase}/module/${module}"
     kualiCoOverlayResourcesBase="${kualiCoOverlayResourcesBase}/module/${module}"
@@ -83,9 +92,9 @@ do
   for cuFile in "${moduleFiles[@]}"
   do
     echo "Cornell File $cuFile" >> $reportFile
+    echo "processing file $cuFile"
     
     if [ "$showCommitHistory" = "true" ]; then
-      echo "processing file $cuFile"
       readarray -t gitLogEntries < <(git log --oneline -- $cuFile ":(exclude)phabricator")
       for logEntry in "${gitLogEntries[@]}"
       do
@@ -120,5 +129,5 @@ done
 
 cd ..
 
-#rm -rf cu-kfs
-#rm -rf financials
+rm -rf cu-kfs
+rm -rf financials
