@@ -1,16 +1,42 @@
-read -p "What module would you like to use (ar, cam, cg coa, concur, fp, gl, integration, kim, kns, krad, ld, pdp, pmw, purap, rass, receiptProcessing, sec, sys, tax, vnd, web): " module
+module=""
+commit_history="false"
+kualico_diff="false"
+while [ "$1" != "" ]; do
+  case $1 in
+  --module )
+    shift
+    module="$1"
+    ;;
+  --show-commit-history)
+    shift
+    commit_history="$1"
+    ;;
+  --show-commit-history)
+    shift
+    commit_history="$1"
+    ;;
+  --show-kualico-diff)
+    shift
+    kualico_diff="$1"
+    ;;
+  * )
+    echo "Examples of running this script are"
+    echo "   bash generate_report.sh --module sys --show-commit-history false --show-kualico-diff true"
+    echo "   bash generate_report.sh --module sys"
+    echo "valid modules are ar, cam, cg, coa, concur, fp, gl, integration, kim, kns, krad, ld, pdp, pmw, purap, rass, receiptProcessing, sec, sys, tax, vnd, web"
+    exit 1
+  esac
+  shift
+done
+
 case $module in
   ar | cam | cg | coa | concur | fp | gl | integration | kim | kns | krad | ld | pdp | pmw | purap | rass | receiptProcessing | sec | sys | tax | vnd | web)
     echo "valid module entered $module"
     ;;
-  *)
+  * )
     echo "invalid module entered $module"
     exit
-    ;;
 esac
-
-read -p "Would you like to show the commit history (true or false): " commit_history
-read -p "Would you like to show the a diff between kualiCo files and cuKFs overlay files (true or false): " kualico_diff
 
 echo "Processing module $module with commit history $commit_history and KualiCo diff $kualico_diff"
 
