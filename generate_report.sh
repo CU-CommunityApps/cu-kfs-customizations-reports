@@ -1,14 +1,20 @@
-if [ "$#" != "3" ]; then
-  echo "This script requires three input parameters.  The module (sys, fp, gl, etc), show_commit_history (if true, then show the commit history), kualico_diff (if true, compare the cu-kfs file with kualico file)"
-  exit
-fi
+read -p "What module would you like to use (ar, cam, cg coa, concur, fp, gl, integration, kim, kns, krad, ld, pdp, pmw, purap, rass, receiptProcessing, sec, sys, tax, vnd, web): " module
+case $module in
+  ar | cam | cg | coa | concur | fp | gl | integration | kim | kns | krad | ld | pdp | pmw | purap | rass | receiptProcessing | sec | sys | tax | vnd | web)
+    echo "valid module entered $module"
+    ;;
+  *)
+    echo "invalid module entered $module"
+    exit
+    ;;
+esac
 
-currentDate=`date`
-module="$1"
-commit_history="$2"
-kualico_diff="$3"
+read -p "Would you like to show the commit history (true or false): " commit_history
+read -p "Would you like to show the a diff between kualiCo files and cuKFs overlay files (true or false): " kualico_diff
 
 echo "Processing module $module with commit history $commit_history and KualiCo diff $kualico_diff"
+
+currentDate=`date`
 
 reportFile="../reports/technical/report_file_${module}"
 if [ "$commit_history" = "true" ]; then
