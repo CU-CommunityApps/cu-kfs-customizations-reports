@@ -34,7 +34,14 @@ done
 cd cu-kfs
 
 echo "Technical Report generated on $currentDate " > $reportFile
+echo "" >> $reportFile
+echo "******************************** Summary Section *****************************************" >> $reportFile
+echo "SUMMARY_REPLACE" >> $reportFile
+echo "******************************************************************************************" >> $reportFile
+echo "" >> $reportFile
+echo "" >> $reportFile
 
+summaryDetails=""
 
 kualicoBase="../financials/"
 kualiCoOverlayJavaBase="src/main/java/org/kuali/kfs"
@@ -85,6 +92,7 @@ do
   
   moduleFileCount=$(find $modPath -type f -print | wc -l)
   echo "The number of files in $modDescription : $moduleFileCount" >> $reportFile
+  summaryDetails="$summaryDetails \n $modDescription : $moduleFileCount"
   echo "" >> $reportFile
   echo "" >> $reportFile
 
@@ -126,6 +134,9 @@ do
   echo "" >> $reportFile
 done
 
+sed "s/SUMMARY_REPLACE/$summaryDetails/" "$reportFile" > ${reportFile}.new
+cat ${reportFile}.new > $reportFile
+rm ${reportFile}.new
 
 cd ..
 
