@@ -1,6 +1,23 @@
+#!/bin/bash
+
+echoHelp() {
+  echo "Examples of running this script are"
+  echo "   bash generate_report.sh --module sys --show-commit-history false --show-kualico-diff true"
+  echo "   bash generate_report.sh --module sys"
+  echo "valid modules are ar, cam, cg, coa, concur, fp, gl, integration, kim, kns, krad, ld, pdp, pmw, purap, rass, receiptProcessing, sec, sys, tax, vnd, web"
+}
+
+if [ "$1" = "" ]; then
+  echoHelp
+  exit 1
+fi
+
 module=""
 commit_history="false"
 kualico_diff="false"
+
+
+
 while [ "$1" != "" ]; do
   case $1 in
   --module )
@@ -20,10 +37,7 @@ while [ "$1" != "" ]; do
     kualico_diff="$1"
     ;;
   * )
-    echo "Examples of running this script are"
-    echo "   bash generate_report.sh --module sys --show-commit-history false --show-kualico-diff true"
-    echo "   bash generate_report.sh --module sys"
-    echo "valid modules are ar, cam, cg, coa, concur, fp, gl, integration, kim, kns, krad, ld, pdp, pmw, purap, rass, receiptProcessing, sec, sys, tax, vnd, web"
+    echoHelp
     exit 1
   esac
   shift
